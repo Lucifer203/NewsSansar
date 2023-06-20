@@ -5,12 +5,12 @@ export default class NewsItem extends Component {
     let { title, description, imageUrl, newsUrl } = this.props;
     return (
       <div className="my-3">
-        <div className="card" style={{ width: "18rem" }}>
+        <div className="card">
           <img
             src={
               imageUrl
                 ? imageUrl
-                : "https://www.hindustantimes.com/ht-img/img/2023/06/17/1600x900/CRICKET-TEST-ENG-AUS--50_1687004449412_1687004508458.JPG"
+                : "https://www.universetoday.com/wp-content/uploads/2023/06/Einstein_cross.jpg"
             }
             className="card-img-top"
             alt="..."
