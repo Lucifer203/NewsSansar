@@ -1,57 +1,54 @@
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import NewsItem from "./NewsItem";
 
-const NavBar = () => {
-  // articles = [];
-  // searchNews = (event) => {
-  //   console.log(event.target.value);
-  // };
-  // static propTypes = {
-  //   country: PropTypes.string,
-  //   category: PropTypes.string,
-  //   pageSize: PropTypes.number,
-  // };
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     articles: this.articles,
-  //     page: 1,
-  //   };
-  // }
-  // state = {
-  //   searchQuery: "",
-  //   searchResults: [],
-  //   //articles: this.articles,
-  // };
+const NavBar = (props) => {
+  // const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
-  // searchNews = (event) => {
-  //   this.setState({ searchQuery: event.target.value });
-  // };
+  const searchNews = async (event) => {
+    event.preventDefault();
+    //  props.setProgress(10);
+    setSearchQuery(event.target.value);
+    const searchUrl = `https://newsapi.org/v2/everything?q=${event.target.value}&from=2023-05-28&sortBy=popularity&apiKey=5dfeff9303ba42459344afbe6c65ed73`;
+    //  const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${page}&pageSize=${props.pageSize}`;
+    // this.setState({ loading: true });
+    //  setLoading(true);
+    let data = await fetch(searchUrl);
+    // props.setProgress(30);
 
-  // async newsSearch(event) {
-  //   const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-  //   let data = await fetch(url);
-  //   let parsedData = await data.json();
-  // console.log(parsedData);
-  // this.setState({
-  //   articles: parsedData.articles,
-  // });
-  // this.state.articles.map((article) => {
-  //   return <div className="container"></div>;
-  // });
-  //   this.setState({ searchQuery: event.target.value });
+    let parsedData = await data.json();
 
-  //   const filteredResults = parsedData.articles.filter((article) => {
-  //     article.title
-  //       .toLowerCase()
-  //       .includes(this.state.searchQuery.toLowerCase());
-  //   });
-  //   this.setState({
-  //     searchResults: filteredResults,
-  //   });
-  // }
+    console.log("parsedData", parsedData);
+    // props.setProgress(70);
+    if (parsedData.status !== "error") {
+      props.setArticles(parsedData.articles);
+    }
+    setTotalResults(parsedData.totalResults);
+    setLoading(false);
+    // if (event.target.value.length == 0) {
+    //   const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${page}&pageSize=${props.pageSize}`;
+    //   console.log("true");
+    //   data = await fetch(searchUrl);
+    //   parsedData = await data.json();
+    //   props.setArticles(parsedData.articles);
+    // }
+    // this.setState({
+    //   articles: parsedData.articles,
+    //   totalResults: parsedData.totalResults,
+    //   loading: false,
+    // });
+    // props.setProgress(100);
+    // const filteredResults = props.articles.filter((article) => {
+    //   article.title.toLowerCase().includes(searchQuery.toLowerCase());
+    // });
+    // setFilteredArticles(filteredResults);
+  };
 
   return (
     <div>
@@ -124,7 +121,7 @@ const NavBar = () => {
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
-                onChange={(event) => this.searchNews(event)}
+                onChange={searchNews}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search
@@ -159,7 +156,37 @@ const NavBar = () => {
         ) : (
           <h2>Nothing Found</h2>
         )} */}
+
+      {/* {filteredArticles.length > 0 ? (
+        <div className="search-results">
+          <h2>Search Results</h2>
+          {filteredArticles.map((article, index) => (
+            <div className="col-md-4" key={index}>
+              <NewsItem
+                title={article.title ? article.title.slice(0, 45) : ""}
+                description={
+                  article.description ? article.description.slice(0, 88) : ""
+                }
+                imageUrl={article.urlToImage}
+                newsUrl={article.url}
+                author={article.author}
+                date={article.publishedAt}
+                name={article.source.name}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <h2>Nothing Found</h2>
+      )} */}
     </div>
   );
 };
+
 export default NavBar;
+
+NavBar.propTypes = {
+  country: PropTypes.string,
+  pageSize: PropTypes.number,
+  category: PropTypes.string,
+};

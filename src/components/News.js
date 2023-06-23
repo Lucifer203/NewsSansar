@@ -6,7 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const News = (props) => {
   // articles = [];
-  const [articles, setArticles] = useState([]);
+  //const [articles, props.setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
@@ -32,9 +32,10 @@ const News = (props) => {
 
     let parsedData = await data.json();
     props.setProgress(70);
-    setArticles(parsedData.articles);
+    props.setArticles(parsedData.articles);
     setTotalResults(parsedData.totalResults);
     setLoading(false);
+    console.log(parsedData.articles.length);
     // this.setState({
     //   articles: parsedData.articles,
     //   totalResults: parsedData.totalResults,
@@ -136,7 +137,7 @@ const News = (props) => {
     setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
-    setArticles(articles.concat(parsedData.articles));
+    props.setArticles(props.articles.concat(parsedData.articles));
     setTotalResults(parsedData.totalResults);
     setLoading(true);
   };
@@ -151,16 +152,16 @@ const News = (props) => {
         {props.category.charAt(0).toUpperCase() + props.category.slice(1)}{" "}
         Headlines
       </h1>
-      {loading && <Spinner />}
+      {/* {loading && <Spinner />} */}
       <InfiniteScroll
-        dataLength={articles.length}
+        dataLength={props.articles.length}
         next={fetchMoreData}
-        hasMore={articles.length !== totalResults}
+        hasMore={props.articles.length !== totalResults}
         //loader={<Spinner />}
       >
         <div className="container">
           <div className="row">
-            {articles.map((article, index) => {
+            {props.articles.map((article, index) => {
               return (
                 <div className="col-md-4" key={index}>
                   <NewsItem
@@ -186,11 +187,6 @@ const News = (props) => {
   );
 };
 
-News.defaultProps = {
-  country: "in",
-  pageSize: 8,
-  category: "general",
-};
 News.propTypes = {
   country: PropTypes.string,
   pageSize: PropTypes.number,

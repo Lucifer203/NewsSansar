@@ -22,6 +22,7 @@ const App = () => {
   // setProgress = (progress) => {
   //   setState({ progress: progress });
   // };
+  const [articles, setArticles] = useState([]);
 
   return (
     <div>
@@ -29,6 +30,8 @@ const App = () => {
         <LoadingBar color="#f11946" progress={progress} />
 
         <NavBar
+          articles={articles}
+          setArticles={setArticles}
           key={"general"}
           pageSize={pageSize}
           country="in"
@@ -40,6 +43,8 @@ const App = () => {
             path="/"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"general"}
                 pageSize={pageSize}
@@ -53,6 +58,8 @@ const App = () => {
             path="/business"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"business"}
                 pageSize={pageSize}
@@ -66,6 +73,8 @@ const App = () => {
             path="/entertainment"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"entertainment"}
                 pageSize={pageSize}
@@ -79,6 +88,8 @@ const App = () => {
             path="/general"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"general"}
                 pageSize={pageSize}
@@ -92,6 +103,8 @@ const App = () => {
             path="/health"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"health"}
                 pageSize={pageSize}
@@ -105,6 +118,8 @@ const App = () => {
             path="/science"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"science"}
                 pageSize={pageSize}
@@ -118,6 +133,8 @@ const App = () => {
             path="/sports"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"sports"}
                 pageSize={pageSize}
@@ -131,6 +148,8 @@ const App = () => {
             path="/technology"
             element={
               <News
+                articles={articles}
+                setArticles={setArticles}
                 setProgress={setProgress}
                 key={"technology"}
                 pageSize={pageSize}
