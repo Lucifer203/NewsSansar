@@ -55,7 +55,10 @@ const NavBar = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav
+        className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark"
+        // style={{ position: "fixed", zIndex: "1" }}
+      >
         <div className="container-fluid">
           <a className="navbar-brand" to="#">
             NewsSansar

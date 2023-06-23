@@ -11,10 +11,6 @@ const News = (props) => {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
 
-  // document.title = `${
-  //   this.props.category.charAt(0).toUpperCase() + this.props.category.slice(1)
-  // } - NewsSansar`;
-
   // constructor(props) {
   //   super(props);
   //   this.state = {
@@ -28,7 +24,7 @@ const News = (props) => {
 
   const updateNews = async () => {
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${page}&pageSize=${props.pageSize}`;
     // this.setState({ loading: true });
     setLoading(true);
     let data = await fetch(url);
@@ -44,11 +40,14 @@ const News = (props) => {
     //   totalResults: parsedData.totalResults,
     //   loading: false,
     // });
-    this.props.setProgress(100);
+    props.setProgress(100);
   };
 
   useEffect(() => {
     updateNews();
+    document.title = `${
+      props.category.charAt(0).toUpperCase() + props.category.slice(1)
+    } - NewsSansar`;
   }, []);
 
   // async componentDidMount() {
@@ -83,9 +82,9 @@ const News = (props) => {
     //   articles: parsedData.articles,
     //   loading: false,
     // });
-    this.setState({
-      page: this.state.page - 1,
-    });
+    // this.setState({
+    //   page: this.state.page - 1,
+    // });
     setPage(page - 1);
     updateNews();
   };
@@ -124,12 +123,17 @@ const News = (props) => {
   };
 
   const fetchMoreData = async () => {
-    setPage(page + 1);
     // this.setState({
     //   page: this.state.page + 1,
     // });
-    const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-    this.setState({ loading: true });
+    const url = `https://newsapi.org/v2/top-headlines?country=${
+      props.country
+    }&category=${props.category}&apiKey=5dfeff9303ba42459344afbe6c65ed73&page=${
+      page + 1
+    }&pageSize=${props.pageSize}`;
+    setPage(page + 1);
+    //  this.setState({ loading: true });
+    setLoading(true);
     let data = await fetch(url);
     let parsedData = await data.json();
     setArticles(articles.concat(parsedData.articles));
@@ -139,7 +143,10 @@ const News = (props) => {
 
   return (
     <>
-      <h1 className="text-center" style={{ margin: "30px 20px" }}>
+      <h1
+        className="text-center"
+        style={{ margin: "30px 20px", marginTop: "67px" }}
+      >
         NewsSansar Top{" "}
         {props.category.charAt(0).toUpperCase() + props.category.slice(1)}{" "}
         Headlines
@@ -178,7 +185,6 @@ const News = (props) => {
     </>
   );
 };
-
 
 News.defaultProps = {
   country: "in",
